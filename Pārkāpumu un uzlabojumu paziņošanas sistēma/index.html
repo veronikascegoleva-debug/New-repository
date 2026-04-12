@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <title>Pārkāpumu un uzlabojumu paziņošanas sistēma</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="portal-card">
+    <h1>Pārkāpumu un uzlabojumu paziņošanas sistēma</h1>
+    <p class="subtitle">Ziņo par pārkāpumiem un veido uzlabojumus</p>
+
+    <div class="mode-selector">
+        <button class="mode-btn active" id="staff-tab" onclick="toggleMode('staff')">Darbiniekiem</button>
+        <button class="mode-btn" id="admin-tab" onclick="toggleMode('admin')">Administrācija</button>
+    </div>
+
+    <div id="staff-form">
+    <input type="text" id="org-key" placeholder="Ievadiet iestādes atslēgu">
+    <button class="action-btn btn-report" onclick="submitKey()">Turpināt</button>
+
+    <div style="text-align: center; margin-top: 15px;">
+        <p style="font-size: 13px; color: #666; margin: 0; padding: 0;">
+            Jau iesniedzāt ziņojumu? 
+            <a href="status.html" style="color: #0056b3; text-decoration: underline; font-weight: bold; font-size: 13px;">Pārbaudiet statusu šeit</a>
+        </p>
+    </div>
+</div>
+
+
+    <div id="admin-form" style="display: none;">
+        <input type="text" placeholder="Lietotājvārds">
+        <input type="password" placeholder="Parole">
+        <button class="action-btn btn-admin" onclick="window.location.href='admin.html'">Ienākt sistēmā</button>
+    </div>
+</div>
+
+
+<div class="portal-card" style="margin-top: 20px; padding: 20px; max-width: 450px; border: 1px dashed #0458b3; background: #fdfdff;">
+    <h3 style="font-size: 16px; margin-bottom: 10px;">Vēlaties ieviest šo sistēmu savā uzņēmumā?</h3>
+    <p style="font-size: 13px; color: #666666; margin-bottom: 15px;">Reģistrējiet savu iestādi un saņemiet unikālu piekļuves atslēgu.</p>
+    <a href="register.html" class="action-btn btn-admin" style="background: #28a745; text-decoration: none; font-size: 14px;">Reģistrēt jaunu uzņēmumu</a>
+</div>
+
+<script>
+
+    function toggleMode(mode) {
+        const staffF = document.getElementById('staff-form');
+        const adminF = document.getElementById('admin-form');
+        const staffT = document.getElementById('staff-tab');
+        const adminT = document.getElementById('admin-tab');
+
+        if(mode === 'staff') {
+            staffF.style.display = 'block';
+            adminF.style.display = 'none';
+            staffT.classList.add('active');
+            adminT.classList.remove('active');
+        } else {
+            staffF.style.display = 'none';
+            adminF.style.display = 'block';
+            adminT.classList.add('active');
+            staffT.classList.remove('active');
+        }
+    }
+    
+    function submitKey() {
+        const enteredKey = document.getElementById('org-key').value.trim();
+        const savedKey = localStorage.getItem('uznemuma_atslega');
+
+        if (!enteredKey) {
+            alert("Lūdzu, ievadiet atslēgu!");
+            return;
+        }
+
+        if (enteredKey === savedKey) {
+            alert("Atslēga akceptēta!");
+            window.location.href = 'forma.html'; 
+        } else {
+            alert("Kļūda: Nepareiza vai neeksistējoša atslēga!");
+        }
+    }
+</script>
+
+
+</body>
+</html>
+
+
+
+

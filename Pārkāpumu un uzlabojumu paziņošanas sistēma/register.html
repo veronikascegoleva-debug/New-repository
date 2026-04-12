@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <title>Uzņēmuma reģistrācija</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="form-card">
+    <h1>Iestādes reģistrācija</h1>
+    <p class="subtitle">Izveidojiet savu kontu un saņemiet atslēgu</p>
+
+    <label>Uzņēmuma vai iestādes nosaukums:</label>
+    <input type="text" id="company-name" placeholder="Lūdzu, ierakstiet savas firmas vai uzņēmuma nosaukumu">
+
+    <label>Nozare:</label>
+    <select id="industry">
+    <option value="office">Birojs / Firma</option>
+    <option value="professional_services">Profesionālie pakalpojumi</option>
+    <option value="education">Izglītība un zinātne</option>
+    <option value="retail">Mazumtirdzniecība / Vairumtirdzniecība</option>
+    <option value="catering">Sabiedriskā ēdināšana</option>
+    <option value="medicine">Medicīna</option>
+    <option value="social">Sociālā aprūpe</option>
+    <option value="manufacturing">Ražošana</option>
+    <option value="construction">Būvniecība un nekustamais īpašums</option>
+    <option value="logistics">Loģistika un transports</option>
+    <option value="other">Cits</option>
+    </select>
+
+    <label>Administratora e-pasts:</label>
+    <input type="email" id="admin-email" placeholder="email@uznemums.lv">
+
+    <label>Izveidojiet paroli admin panelim:</label>
+    <input type="password" id="admin-pass" placeholder="Minimums 6 rakstzīmes">
+
+    <button class="btn-send" onclick="generateKey()">Reģistrēt un ģenerēt atslēgu</button>
+
+    <div id="result-box" style="display: none; margin-top: 20px; padding: 15px; background: #e8f5e9; border: 1px solid #2e7d32; border-radius: 8px;">
+        <p style="font-weight: bold; color: #2e7d32; margin: 0;">Jūsu unikālā atslēga:</p>
+        <h2 id="generated-key" style="color: #181717; margin: 10px 0;"></h2>
+        <button class="btn-send" onclick="window.location.href='admin.html'" style="background: #353535; margin-top: 10px;">Doties uz vadības paneli</button>
+        <p style="font-size: 12px; color: #6e6e6e;">Saglabājiet šo atslēgu! Kopīgojiet to ar darbiniekiem, lai viņi varētu iesniegt ziņojumus.</p>
+        <a href="index.html" class="back-link">Atgriezties uz sākumu</a>
+    </div>
+
+
+    <a href="index.html" class="back-link">Atcelt</a>
+</div>
+
+
+<script>
+
+    function generateKey() {
+        const name = document.getElementById('company-name').value;
+        const email = document.getElementById('admin-email').value;
+
+        if (name === "" || email === "") {
+            alert("Lūdzu, aizpildiet visus laukus!");
+            return;
+        }
+
+        const burti = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let atslega = "";
+        
+        for (let i = 0; i < 10; i++) {
+            let indekss = Math.floor(Math.random() * burti.length);
+            atslega += burti[indekss];
+        }
+
+        const finalKey = atslega.substring(0, 5) + "-" + atslega.substring(5, 10);
+
+        localStorage.setItem('uznemuma_atslega', finalKey);
+        localStorage.setItem('uznemuma_nosaukums', name); 
+        document.getElementById('generated-key').innerText = finalKey;
+        document.getElementById('result-box').style.display = 'block';
+    }
+</script>
+
+
+
+</body>
+</html>
+
+
+
+
+
+

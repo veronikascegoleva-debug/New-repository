@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <title>Pārbaudīt ziņojuma statusu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="portal-card">
+    <h1>Pārbaudīt statusu</h1>
+    <p class="subtitle">Ievadiet savu unikālo kodu, lai redzētu progresu</p>
+
+    <div class="status-search">
+        <input type="text" id="search-id" placeholder="Piemēram: ID-1234" style="text-align: center; font-weight: bold;">
+        <button class="action-btn btn-report" onclick="checkStatus()" style="margin-top: 10px;">Meklēt ziņojumu</button></div>
+
+    <div id="result-area" style="display:none; margin-top: 25px; text-align: left; padding: 20px; border-radius: 8px; background: #fcfcfc; border: 1px solid #e0dede;">
+        <h3 style="margin-top: 0; color: #0461c4;">Ziņojuma dati:</h3>
+        <p><strong>Veids:</strong> <span id="res-type"></span></p>
+        <p><strong>Statuss:</strong> <span id="res-status" class="status"></span></p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+        <p><strong>Administrācijas paskaidrojums:</strong></p>
+        <div id="res-answer" style="background: #ffffff; padding: 12px; border-left: 4px solid #065fbe; font-style: italic; color: #474747; min-height: 40px;">Vēl nav sniegta atbilde.</div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <a href="index.html" class="back-link">Atpakaļ uz sākumu</a>
+    </div>
+</div>
+
+<script>
+function checkStatus() {
+    const searchId = document.getElementById('search-id').value.trim().toUpperCase();
+    const resultArea = document.getElementById('result-area');
+    
+    const allReports = JSON.parse(localStorage.getItem('sent_reports')) || [];
+    const foundReport = allReports.find(r => r.id === searchId);
+    
+    if (foundReport) {
+        resultArea.style.display = 'block';
+        document.getElementById('res-type').innerText = foundReport.veids;
+        document.getElementById('res-status').innerText = foundReport.statuss;
+        
+        const statusEl = document.getElementById('res-status');
+        const statusi = {"Jauns": "status-new", "Procesā": "status-process", "Atrisināti": "status-closed"};
+        statusEl.className = "status " + (statusi[foundReport.statuss] || "status-new");
+
+        document.getElementById('res-answer').innerText = foundReport.atbilde || "Administrācija pašlaik izskata Jūsu ziņojumu. Lūdzu, pārbaudiet vēlāk.";
+        
+    } else {
+        resultArea.style.display = 'none';
+        alert("Ziņojums ar kodu " + searchId + " netika atrasts. Pārbaudiet, vai kods ir pareizs!");
+    }
+}
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
